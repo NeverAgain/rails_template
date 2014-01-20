@@ -21,7 +21,7 @@ class BareboneGenerator < Rails::Generators::Base
   def gem_setup
     gsub_file 'Gemfile', /gem 'sqlite3'\n/, "gem 'mysql2'\n"
 
-    gem 'haml'gem 'haml'
+    gem 'haml'
 
     gem_group :development do
       gem 'better_errors'
