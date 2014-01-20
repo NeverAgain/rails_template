@@ -3,7 +3,7 @@ require 'securerandom'
 class BareboneGenerator < Rails::Generators::Base
   source_root File.expand_path('../templates', __FILE__)
 
-  password = SecureRandom.base64 8
+  @password = SecureRandom.base64 8
 
   def main
     gem_setup
@@ -34,7 +34,7 @@ class BareboneGenerator < Rails::Generators::Base
   def database_setup
     gsub_file 'config/database.yml',
       /database.*\n/,
-      "database: mysql2\n  username: #{@app_name}\n  password: #{password}\n"
+      "database: mysql2\n  username: #{@app_name}\n  password: #{@password}\n"
     gsub_file 'config/database.yml',
       /adapter.*\n/,
       "adapter: mysql2\n"
