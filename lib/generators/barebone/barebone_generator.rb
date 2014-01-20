@@ -34,18 +34,18 @@ class BareboneGenerator < Rails::Generators::Base
   def database_setup
     gsub_file 'config/database.yml',
       /database.*\n/,
-      "database: mysql2\n  username: #{app_name}\n  password: #{password}\n"
+      "database: mysql2\n  username: #{@app_name}\n  password: #{password}\n"
     gsub_file 'config/database.yml',
       /adapter.*\n/,
       "adapter: mysql2\n"
   end
 
   def gemset_setup
-    run "rvm gemset create #{app_name}"
-    run "rvm gemset use #{app_name}"
+    run "rvm gemset create #{@app_name}"
+    run "rvm gemset use #{@app_name}"
 
     create_file '.ruby-version', "2.1.0"
-    create_file '.ruby-gemset', "#{app_name}"
+    create_file '.ruby-gemset', "#{@app_name}"
   end
 
   def cleanup
