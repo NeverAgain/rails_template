@@ -3,17 +3,20 @@ require 'securerandom'
 class BareboneGenerator < Rails::Generators::Base
   source_root File.expand_path('../templates', __FILE__)
 
-  @password = SecureRandom.base64 8
-
   def main
+    ruby_version = "2.1.0"
+    password = SecureRandom.base64 8
+
     gem_setup
-    gemset_setup
+    gemset_setup(ruby_version)
 
     run "bundle update"
 
-    database_setup
+    database_setup(password)
 
     cleanup
+
+    messages(password)
   end
 
   private
@@ -39,19 +42,18 @@ class BareboneGenerator < Rails::Generators::Base
     gem 'compass-rails'
   end
 
-  def database_setup
+  def database_setup(password)
     gsub_file 'config/database.yml',
       /database.*\n/,
-      "database: #{application_name}\n  username: #{application_name}\n  password: #{@password}\n"
+      "database: #{application_name}\n  username: #{application_name}\n  password: #{password}\n"
     gsub_file 'config/database.yml',
       /adapter.*\n/,
       "adapter: mysql2\n"
   end
 
-  def gemset_setup
-    current_ruby = "2.1.0"
+  def gemset_setup(current_ruby)
 
-    run "rvm #{current_ruby} do rvm gemset use #{application_name} --create"
+    run "rvm #{current_ruby} do rvm gemset use #{current_ruby}@#{application_name} --create"
 
     create_file '.ruby-version', "#{current_ruby}"
     create_file '.ruby-gemset', "#{application_name}"
@@ -61,6 +63,10 @@ class BareboneGenerator < Rails::Generators::Base
     remove_file 'app/views/layouts/application.html.erb'
 
     copy_file 'application.html.haml', 'app/views/layouts/application.html.haml'
+  end
+
+  def messages(password)
+    puts ""
   end
 
 end
