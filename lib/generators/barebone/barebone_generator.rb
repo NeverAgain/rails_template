@@ -9,7 +9,7 @@ class BareboneGenerator < Rails::Generators::Base
     gem_setup
     gemset_setup
 
-    run "bundle install"
+    run "bundle update"
 
     database_setup
 
