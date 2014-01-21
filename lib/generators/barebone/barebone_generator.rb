@@ -3,6 +3,7 @@ require 'securerandom'
 class BareboneGenerator < Rails::Generators::Base
   source_root File.expand_path('../templates', __FILE__)
 
+  @current_ruby = "2.1.0"
   @password = SecureRandom.base64 8
 
   def main
@@ -49,9 +50,9 @@ class BareboneGenerator < Rails::Generators::Base
   end
 
   def gemset_setup
-    run "rvm gemset use #{application_name} --create"
+    run "rvm #{@current_ruby} do rvm gemset use #{application_name} --create"
 
-    create_file '.ruby-version', "2.1.0"
+    create_file '.ruby-version', "@#{current_ruby}"
     create_file '.ruby-gemset', "#{application_name}"
   end
 
