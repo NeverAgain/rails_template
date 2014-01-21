@@ -49,9 +49,7 @@ class BareboneGenerator < Rails::Generators::Base
   end
 
   def gemset_setup
-    run "source ~/.rvm/scripts/rvm"
-
-    run "rvm gemset create #{application_name} && rvm gemset use #{application_name}"
+    run "rvm gemset use #{application_name} --create"
 
     create_file '.ruby-version', "2.1.0"
     create_file '.ruby-gemset', "#{application_name}"
