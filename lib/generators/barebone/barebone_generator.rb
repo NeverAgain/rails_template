@@ -56,7 +56,7 @@ class BareboneGenerator < Rails::Generators::Base
     version_num = ask("Ruby version number?")
     version_num = "1.9.3" if version_num.blank?
 
-    run "rvm use #{version_num}"
+    run "rvm #{version_num} do rvm use #{version_num}"
     run "rvm #{version_num} do rvm gemset create #{application_name}"
     run "rvm #{version_num} do rvm gemset use #{application_name}"
 
