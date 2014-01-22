@@ -53,10 +53,11 @@ class BareboneGenerator < Rails::Generators::Base
 
   def gemset_setup(current_ruby)
 
-    run "rvm #{current_ruby} do rvm gemset use #{current_ruby}@#{application_name} --create"
+    run "rvm #{current_ruby} do rvm gemset create #{application_name}"
+    run "rvm #{current_ruby} do rvm gemset use #{application_name}"
 
-    create_file '.ruby-version', "#{current_ruby}"
-    create_file '.ruby-gemset', "#{application_name}"
+    create_file '.ruby-version', "#{current_ruby}\n"
+    create_file '.ruby-gemset', "#{application_name}\n"
   end
 
   def cleanup
