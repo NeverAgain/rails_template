@@ -52,11 +52,15 @@ class BareboneGenerator < Rails::Generators::Base
   end
 
   def gemset_setup(current_ruby)
+    # should check for regex #.#.#
+    version_num = ask("Ruby version number?")
+    version_num = "1.9.3" if version_num.blank?
 
-    run "rvm #{current_ruby} do rvm gemset create #{application_name}"
-    run "rvm #{current_ruby} do rvm gemset use #{application_name}"
+    run "rvm use #{version_num}"
+    run "rvm #{version_num} do rvm gemset create #{application_name}"
+    run "rvm #{version_num} do rvm gemset use #{application_name}"
 
-    create_file '.ruby-version', "#{current_ruby}\n"
+    create_file '.ruby-version', "#{version_num}\n"
     create_file '.ruby-gemset', "#{application_name}\n"
   end
 
